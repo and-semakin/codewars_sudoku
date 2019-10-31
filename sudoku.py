@@ -8,7 +8,9 @@ class Sudoku:
         self.data = data
 
     def _check_sequence(self, sequence: Iterable) -> None:
-        if not sorted(sequence) == range(1, self.size + 1):
+        if not all(type(item) == int for item in sequence):
+            raise ValueError("All items in sequence must be ints")
+        if not sorted(sequence) == list(range(1, self.size + 1)):
             raise ValueError("Sequence is not valid")
 
     def _iter_rows(self) -> Iterable[Iterable[int]]:
@@ -38,15 +40,6 @@ class Sudoku:
             yield square
 
     def is_valid(self) -> bool:
-        if not all(
-            (
-                len(row) == self.size
-                and all(type(cell) == int and 0 < cell <= self.size for cell in row)
-            )
-            for row in self.data
-        ):
-            return False
-
         try:
             for row in self._iter_rows():
                 self._check_sequence(row)
