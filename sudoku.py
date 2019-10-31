@@ -1,4 +1,4 @@
-from typing import Iterable, List
+from typing import Iterable, List, Generator
 import math
 
 
@@ -13,15 +13,15 @@ class Sudoku:
         if not sorted(sequence) == list(range(1, self.size + 1)):
             raise ValueError("Sequence is not valid")
 
-    def _iter_rows(self) -> Iterable[Iterable[int]]:
+    def _iter_rows(self) -> Generator[Iterable[int], None, None]:
         for row in self.data:
             yield row
 
-    def _iter_columns(self) -> Iterable[Iterable[int]]:
+    def _iter_columns(self) -> Generator[Iterable[int], None, None]:
         for column in zip(*self.data):
             yield column
 
-    def _iter_squares(self) -> Iterable[Iterable[int]]:
+    def _iter_squares(self) -> Generator[Iterable[int], None, None]:
         if not math.sqrt(self.size).is_integer():
             raise ValueError("Sudoku can not be splitted to little squares")
 
